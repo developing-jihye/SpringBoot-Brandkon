@@ -11,9 +11,23 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductRestController {
 
+    private final ProductRepository productRepository;
+    // 의존성 주입: 생성자 주입(이것만 사용함)
+    // 생성자를 통해 외부에서 만든 오브젝트를 주입받는 것.
+    public ProductRestController(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
     @GetMapping
     public List<ProductResponseDto> findAll() {
-        return List.of();
+        return productRepository.findAll()
+                .stream().map(product -> new ProductResponseDto(
+                        product.getId(),
+                        product.getImageUrl(),
+                        product.getPrice(),
+                        product.getName(),
+                        product.getBrand().getName()
+                )).toList();
     }
 
     @GetMapping("/{id}")
@@ -27,5 +41,4 @@ public class ProductRestController {
                 0
         );
     }
-
 }

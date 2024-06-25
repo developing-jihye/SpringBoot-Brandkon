@@ -21,13 +21,7 @@ public class ProductRestController {
     @GetMapping
     public List<ProductResponseDto> findAll() {
         return productRepository.findAll()
-                .stream().map(product -> new ProductResponseDto(
-                        product.getId(),
-                        product.getImageUrl(),
-                        product.getPrice(),
-                        product.getName(),
-                        product.getBrand().getName()
-                )).toList();
+                .stream().map(product -> ProductResponseDto.of(product)).toList();
     }
 
     @GetMapping("/{id}")

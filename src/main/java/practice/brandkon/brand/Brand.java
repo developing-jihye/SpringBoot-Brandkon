@@ -12,8 +12,12 @@ public class Brand {
 
     private String name;
 
+    private String imageUrl;
+
     @ManyToOne
     private Category category;
+
+    // getter
 
     public Long getId() {
         return id;
@@ -21,6 +25,10 @@ public class Brand {
 
     public String getName() {
         return name;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
     }
 
     public Category getCategory() {

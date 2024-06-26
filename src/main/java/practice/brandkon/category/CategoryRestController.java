@@ -10,8 +10,14 @@ import java.util.List;
 @RequestMapping("/categories")
 public class CategoryRestController {
 
+    public final CategoryService categoryService;
+
+    public CategoryRestController(CategoryService categoryService) {
+        this.categoryService = categoryService;
+    }
+
     @GetMapping
     public List<CategoryResponseDto> findAll() {
-        return List.of();
+        return categoryService.findAll();
     }
 }

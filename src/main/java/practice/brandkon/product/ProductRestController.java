@@ -1,9 +1,6 @@
 package practice.brandkon.product;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -11,28 +8,25 @@ import java.util.List;
 @RequestMapping("/products")
 public class ProductRestController {
 
-    private final ProductRepository productRepository;
-    // 의존성 주입: 생성자 주입(이것만 사용함)
-    // 생성자를 통해 외부에서 만든 오브젝트를 주입받는 것.
-    public ProductRestController(ProductRepository productRepository) {
-        this.productRepository = productRepository;
+    ProductService productService;
+    public ProductRestController(ProductService productService) {
+        this.productService = productService;
     }
 
+    // Get /products?sort=POPULAR
+    // Get /products?brandId=23&sort=POPULAR
+    // GET /products?categoryd=6&sort=POPULAR
     @GetMapping
-    public List<ProductResponseDto> findAll() {
-        return productRepository.findAll()
-                .stream().map(product -> ProductResponseDto.of(product)).toList();
+    public List<ProductResponseDto> findAll(
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam String sort) {
+
+        return productService.findAll(brandId, categoryId, sort);
     }
 
     @GetMapping("/{id}")
     public ProductDetailResponseDto findById(@PathVariable Long id) {
-        return new ProductDetailResponseDto(
-                0L,
-                "",
-                0L,
-                "",
-                0L,
-                0
-        );
+        return productService.findById(id);
     }
 }

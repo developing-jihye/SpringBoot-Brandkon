@@ -1,9 +1,9 @@
 package practice.brandkon.product;
 
 public record ProductResponseDto(
-        long productId,
+        Long productId,
         String imageUrl,
-        long price,
+        Long price,
         String productName,
         String brandName
 ) {

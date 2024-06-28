@@ -9,8 +9,11 @@ import java.util.List;
 public class ProductRestController {
 
     ProductService productService;
-    public ProductRestController(ProductService productService) {
+    ProductMapper productMapper;
+
+    public ProductRestController(ProductService productService, ProductMapper productMapper) {
         this.productService = productService;
+        this.productMapper = productMapper;
     }
 
     // Get /products?sort=POPULAR
@@ -20,7 +23,7 @@ public class ProductRestController {
     public List<ProductResponseDto> findAll(
             @RequestParam(required = false) Long brandId,
             @RequestParam(required = false) Long categoryId,
-            @RequestParam String sort) {
+            @RequestParam(required = false) String sort) {
 
         return productService.findAll(brandId, categoryId, sort);
     }
@@ -29,4 +32,14 @@ public class ProductRestController {
     public ProductDetailResponseDto findById(@PathVariable Long id) {
         return productService.findById(id);
     }
+
+    @GetMapping("/mybatis")
+    public List<ProductResponseDto> findAllMybatis(
+            @RequestParam(required = false) Long brandId,
+            @RequestParam(required = false) Long categoryId,
+            @RequestParam(required = false) String sort
+            ) {
+        return productService.findAllMybatis(brandId, categoryId, sort);
+    }
+
 }

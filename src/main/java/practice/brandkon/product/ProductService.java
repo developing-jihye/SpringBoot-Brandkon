@@ -9,10 +9,15 @@ import java.util.NoSuchElementException;
 public class ProductService {
 
     private final ProductRepository productRepository;
+    private final ProductMapper productMapper;
+
     // 의존성 주입: 생성자 주입(이것만 사용함)
     // 생성자를 통해 외부에서 만든 오브젝트를 주입받는 것.
-    public ProductService(ProductRepository productRepository) {
+
+
+    public ProductService(ProductRepository productRepository, ProductMapper productMapper) {
         this.productRepository = productRepository;
+        this.productMapper = productMapper;
     }
 
     // 메서드
@@ -60,5 +65,9 @@ public class ProductService {
         );
 
         return productDetailResponseDto;
+    }
+
+    public List<ProductResponseDto> findAllMybatis(Long brandId, Long categoryId, String sort) {
+        return productMapper.findAllMybatis(brandId, categoryId, sort);
     }
 }

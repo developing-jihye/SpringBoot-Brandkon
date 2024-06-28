@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="practice.brandkon.product.ProductMapper">
+    <select id="findAllMybatis" resultType="practice.brandkon.product.ProductResponseDto">
+        SELECT
+            product.id,
+            product.image_url,
+            product.price,
+            product.name AS 컬럼별칭,
+            brand.name
+        FROM product
+        JOIN brand
+        ON product.brand_id = brand.id
+        <where>
+            <if test="brandId != null">
+                and product.brand_id = #{brandId}
+            </if>
+            <if test="categoryId != null">
+                and product.category_id = #{categoryId}
+            </if>
+        </where>
+        <if test="sort == 'POPULAR'">
+            order by sales DESC
+        </if>
+    </select>
+</mapper>
